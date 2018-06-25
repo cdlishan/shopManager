@@ -17,7 +17,7 @@ public class ThreadTest {
 //        Thread.sleep(50);
 //        Thread t3 = new ThreadPrint("C",b,c);
 //        t3.start();
-        
+
         ThreadPrint2 task = new ThreadPrint2();
         Thread thread1 = new Thread(task);
         Thread thread2 = new Thread(task);
@@ -31,14 +31,15 @@ public class ThreadTest {
     }
 
 }
+
 class ThreadPrint extends Thread {
 
-    private static int count =10;
+    private static int count = 10;
     Object prev;
     Object next;
     String name;
-    
-    public ThreadPrint(String name,Object prev, Object next) {
+
+    public ThreadPrint(String name, Object prev, Object next) {
         this.prev = prev;
         this.next = next;
         this.name = name;
@@ -47,45 +48,47 @@ class ThreadPrint extends Thread {
     @Override
     public void run() {
         int count = 10;
-        while(count>0) {
+        while (count > 0) {
             synchronized (prev) {
                 synchronized (next) {
                     System.out.print(name);
                     count--;
                     next.notify();
-                }     
+                }
                 try {
-                    prev.wait();     
+                    prev.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-    
+
 }
+
 class ThreadPrint2 extends Thread {
 
     int state = 0;
     ReentrantLock lock = new ReentrantLock();
     Condition c = lock.newCondition();
     int printNum = 1;
+
     @Override
     public void run() {
         lock.lock();
         int count = 10;
         try {
-            while (count>0) {
-                if(Thread.currentThread().getName().equals("A")) {
-                    while(state%3!=0) {
+            while (count > 0) {
+                if (Thread.currentThread().getName().equals("A")) {
+                    while (state % 3 != 0) {
                         c.await();
                     }
-                } else if(Thread.currentThread().getName().equals("B")) {
-                    while(state%3!=1) {
+                } else if (Thread.currentThread().getName().equals("B")) {
+                    while (state % 3 != 1) {
                         c.await();
                     }
-                } else if(Thread.currentThread().getName().equals("C")) {
-                    while(state%3!=2) {
+                } else if (Thread.currentThread().getName().equals("C")) {
+                    while (state % 3 != 2) {
                         c.await();
                     }
                 }
@@ -100,13 +103,13 @@ class ThreadPrint2 extends Thread {
                 }*/
                 System.out.print(Thread.currentThread().getName());
                 c.signalAll();
-                
+
             }
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             lock.unlock();
         }
     }
-    
+
 }

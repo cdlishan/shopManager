@@ -27,13 +27,13 @@ public class ThreadTest3 {
         //Lock lock = new ReentrantLock();//局部变量，造成不同的线程拿到的是不同的锁，所以没有冲突
         lock.lock();
         try {
-            System.out.println(thread.getName()+"得到了锁1");
+            System.out.println(thread.getName()+"得到了锁");
             for(int i=0;i<5;i++) {
                 arrayList.add(i);
             }
         } catch (Exception e) {
         } finally {
-            System.out.println(thread.getName()+"释放了锁1");
+            System.out.println(thread.getName()+"释放了锁");
             lock.unlock();
         }
     }
