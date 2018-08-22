@@ -48,27 +48,32 @@ public class ThreadTest12 {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println("share = "+data.getShare());
+        System.out.println("share = " + data.getShare());
     }
 }
+
 class DataShare {
-    
-    int share =0;
+
+    int share = 0;
     CountDownLatch c;
+
     public int getShare() {
         return share;
     }
+
     public DataShare(CountDownLatch c) {
-        this.c=c;
+        this.c = c;
     }
+
     public synchronized void addShare() {
         share++;
-        System.out.println("share ++ by"+Thread.currentThread().getName());
+        System.out.println("share ++ by" + Thread.currentThread().getName());
         c.countDown();
     }
+
     public synchronized void subShare() {
         share--;
-        System.out.println("share -- by"+Thread.currentThread().getName());
+        System.out.println("share -- by" + Thread.currentThread().getName());
         c.countDown();
     }
 }
