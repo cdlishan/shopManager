@@ -3,12 +3,12 @@ package com.leo.thread;
 import java.util.concurrent.CountDownLatch;
 
 public class ThreadTest9 {
-//证明volatile不是原子操作
+    //证明volatile不是原子操作
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         CountDownLatch cl = new CountDownLatch(1000);
         VolatileTest vt = new VolatileTest(cl);
-        for(int i=0;i<1000;i++) {
+        for (int i = 0; i < 1000; i++) {
             new Thread(new Runnable() {
                 public void run() {
                     vt.setCount();
@@ -24,21 +24,25 @@ public class ThreadTest9 {
             cl.await();
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            e.printStackTrace();long a = System.currentTimeMillis();
         }
         System.out.println(vt.getCount());
     }
 
 }
+
 class VolatileTest {
     volatile private int count = 0;
     CountDownLatch cl;
+
     public VolatileTest(CountDownLatch cl) {
         this.cl = cl;
     }
+
     public int getCount() {
         return count;
     }
+
     public void setCount() {
         try {
             Thread.sleep(100);
